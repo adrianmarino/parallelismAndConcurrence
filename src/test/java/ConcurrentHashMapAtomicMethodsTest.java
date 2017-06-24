@@ -23,17 +23,22 @@ public class ConcurrentHashMapAtomicMethodsTest {
     public void incrementKeyValueUsingMerge() {
         // Perform
         map.merge(KEY, 1, (currentValue, defaultValue) -> currentValue + defaultValue);
+        map.merge(KEY, 1, (currentValue, defaultValue) -> currentValue + defaultValue);
 
         // Asserts
-        assertThat(map.get(KEY), is(equalTo(1)));
+        assertThat(map.get(KEY), is(equalTo(2)));
     }
 
 
     @Test
     public void incrementKeyValueUsingIfAbsentAndIfPresent() {
         // Perform
-        map.computeIfAbsent(KEY, key -> { return 0; });
-        map.computeIfPresent(KEY, (key, value) -> { return value + 1; });
+        map.computeIfAbsent(KEY, key -> {
+            return 0;
+        });
+        map.computeIfPresent(KEY, (key, value) -> {
+            return value + 1;
+        });
 
         // Asserts
         assertThat(map.get(KEY), is(equalTo(1)));
@@ -43,7 +48,9 @@ public class ConcurrentHashMapAtomicMethodsTest {
     public void incrementKeyValueUsingPutIfAbsentAndIfPresent() {
         // Perform
         map.putIfAbsent(KEY, 0);
-        map.computeIfPresent(KEY, (key, value) -> { return value + 1; });
+        map.computeIfPresent(KEY, (key, value) -> {
+            return value + 1;
+        });
 
         // Asserts
         assertThat(map.get(KEY), is(equalTo(1)));
@@ -53,16 +60,6 @@ public class ConcurrentHashMapAtomicMethodsTest {
     public void setUp() {
         map = new ConcurrentHashMap<>();
     }
-
-/*
-    ExecutorService service = Executors.newSingleThreadExecutor();
-        service.execute(() ->
-                System.out.println("Hello " + Thread.currentThread().getName()));
-
-    Future<String> result =
-            service.submit(() -> "Hello " + Thread.currentThread().getName());
-        result.get();*/
-
 
     //-----------------------------------------------------------------------------
     // Constants

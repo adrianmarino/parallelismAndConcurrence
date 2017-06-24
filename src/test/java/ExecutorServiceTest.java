@@ -26,7 +26,7 @@ public class ExecutorServiceTest {
 
         // Asserts
         service.awaitTermination(1, SECONDS);
-        assertThat(threadNames, hasItem("pool-5-thread-1"));
+        assertThat(threadNames, hasItem("pool-3-thread-1"));
     }
 
     @Test
@@ -39,12 +39,13 @@ public class ExecutorServiceTest {
         Future<String> threadName = service.submit(lambda);
 
         // Asserts
-        assertThat(threadName.get(), is(equalTo("pool-8-thread-1")));
+        assertThat(threadName.get(), is(equalTo("pool-7-thread-1")));
     }
 
     @Test(expected = CancellationException.class)
-    public void testCancelAndInterruptCallableIfRunning() throws ExecutionException, InterruptedException {
+    public void testCancelAndInterruptCallableWhileRun() throws ExecutionException, InterruptedException {
         // Prepare
+        final boolean mayInterruptIfRunning = true;
         final Boolean[] wasInterrupted = {false};
         Callable<Integer> lambda = () -> {
             try {
@@ -59,7 +60,7 @@ public class ExecutorServiceTest {
 
         // Perform
         Thread.sleep(50L);
-        future.cancel(true);
+        future.cancel(mayInterruptIfRunning);
 
         // Asserts
         Thread.sleep(150L);
@@ -68,9 +69,9 @@ public class ExecutorServiceTest {
     }
 
     @Test(expected = CancellationException.class)
-    public void testCancelCallableWhileIsRunning() throws ExecutionException, InterruptedException {
+    public void testCancelCallableWhileRun() throws ExecutionException, InterruptedException {
         // Prepare
-        final boolean mayInterruptIfRunning = true;
+        final boolean mayInterruptIfRunning = false;
         final Boolean[] wasInterrupted = {false};
         Callable<Integer> lambda = () -> {
             try {
@@ -90,7 +91,7 @@ public class ExecutorServiceTest {
         // Asserts
         assertThat(future.isCancelled(), is(equalTo(true)));
         Thread.sleep(100L);
-        assertThat(wasInterrupted[0], is(equalTo(true)));
+        assertThat(wasInterrupted[0], is(equalTo(false)));
         future.get();
     }
 
@@ -155,8 +156,8 @@ public class ExecutorServiceTest {
                 .collect(toList());
 
         // Asserts
-        assertThat(threadNames, hasItem("pool-3-thread-1"));
-        assertThat(threadNames, hasItem("pool-3-thread-2"));
+        assertThat(threadNames, hasItem("pool-1-thread-1"));
+        assertThat(threadNames, hasItem("pool-1-thread-2"));
     }
 
     @Test
@@ -171,6 +172,6 @@ public class ExecutorServiceTest {
         String threadName = service.invokeAny(invocations);
 
         // Asserts
-        assertThat(newArrayList("pool-4-thread-1", "pool-4-thread-2"), hasItem(threadName));
+        assertThat(newArrayList("pool-2-thread-1", "pool-2-thread-2"), hasItem(threadName));
     }
 }

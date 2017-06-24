@@ -1,0 +1,9 @@
+#!/bin/bash
+API_KEY="581262206dae13c5c47b9af9"
+FLIGHT_ID="AMA|EZE-GRU(G3|AR|6019)M_2017-02-01_22:10_N@s=ARG_a=1_c=0_i=0|1480002923379*AMA|GRU-GIG(G3|G3|1098)M_2017-02-20_20:30_B&&GIG-EZE(G3|G3|7650)M_2017-02-21_08:05_B@s=ARG_a=1_c=0_i=0|1480002923379"
+
+rm -rf responses/form_of_payment_response.json
+
+curl -H "Accept: application/json" -H "X-Apikey: $API_KEY" -H "Content-Type: application/json" \
+-X POST -d '{"forms_of_payment":[{"type":"CREDIT_CARD","bin":"376407","credit_card_id":884738,"financial_entity_id":2145536,"installments":12,"limit":{"upper":60000}},{"type":"REWARDS","limit":{"upper":1000}}],"products":[{"availability_id":"$FLIGHT_ID","type":"FLIGHT"}]}' \
+"http://apist.almundo.com:8080/api/fops/products-form-of-payment?site=ARG&channel=WEB&brand=PATAGONIA&language=es" | python -m json.tool  > responses/form_of_payment.json

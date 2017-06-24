@@ -1,0 +1,11 @@
+#!/bin/bash
+API_KEY="581262206dae13c5c47b9af9"
+
+CART_ID=""
+PAYMENT_ID=""
+PAYMENT_METHOD_ID=""
+
+curl -H "Accept: application/json" -H "X-Apikey: $API_KEY" -H "Content-Type: application/json" \
+-X POST -d '{"cart_id":"$CART_ID","source":{"ip":"0.0.0.0"},"product_ids":[{"id":"AMA|EZE-GRU(QR|QR|774)M_2017-03-12_23:20_N@s=ARG_a=1_c=0_i=0|1479939326984*AMA|GRU-EZE(QR|QR|773)M_2017-03-25_18:15_N@s=ARG_a=1_c=0_i=0|1479939326985","type":"FLIGHT"}],"payments":[{"payment_id":"$PAYMENT_ID","payment_method":"$PAYMENT_METHOD_ID","security_code":"1234","version":"V2"}],"passengers":[{"passenger_type":"ADULT","first_name":"JUAN JOSE","last_name":"MARINADO","gender":"M","document":{"document_type":"2326538","number":"22222222"},"birthday":"01-01-1980"}],"contact":{"email":"test@almundo.com","newsletter":false,"telephones":[{"telephone_type":"MOBILE","country_code":"054","area_code":"011","number":"44445555"}]},"billing":{"fiscal_type":"2359314","fiscal_name":"TEST FLIGHTS","fiscal_document":"20222222223","document_type":"2326538","address":{"street":"Pellegrini","number":"887","postal_code":"1234","state":"Buenos Aires","city":"Capital Federal"}}}' \
+"http://apist.almundo.com:8080/api/grondon/reserve?site=ARG&language=es&channel=WEB&brand=ALMUNDO" \
+ | python -m json.tool > reserve_response.json; more reserve_response.json

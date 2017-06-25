@@ -1,4 +1,4 @@
-# Paralelismo & Concurrencia en java 8
+# Paralelismo & Concurrencia
 
 Se explican las herramientas que tiene java 8 para aplicar concurrencia, sincronización y paralelismo.
 

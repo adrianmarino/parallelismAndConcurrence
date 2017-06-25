@@ -1,1 +1,1 @@
-# Parallelism & Concurrence talk
+# Parallelism & Concurrence

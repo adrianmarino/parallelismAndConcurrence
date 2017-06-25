@@ -1,3 +1,5 @@
+package com.nonosoft;
+
 import static java.util.Arrays.stream;
 
 public class Queue<T> {

@@ -1,3 +1,5 @@
+package com.nonosoft;
+
 class Node<D> {
     private D value;
     private Node<D> next;

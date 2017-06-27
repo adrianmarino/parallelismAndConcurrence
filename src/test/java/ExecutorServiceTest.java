@@ -145,7 +145,7 @@ public class ExecutorServiceTest {
                 return future.get();
             } catch (Exception exception) {
                 fail(exception.getMessage());
-                return "";
+                return null;
             }
         };
         ExecutorService service = Executors.newFixedThreadPool(2);

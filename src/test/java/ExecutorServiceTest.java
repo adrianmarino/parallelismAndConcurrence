@@ -64,6 +64,7 @@ public class ExecutorServiceTest {
 
         // Asserts
         Thread.sleep(150L);
+        assertThat(future.isCancelled(), is(equalTo(true)));
         assertThat(wasInterrupted[0], is(equalTo(true)));
         future.get();
     }
@@ -89,8 +90,8 @@ public class ExecutorServiceTest {
         future.cancel(mayInterruptIfRunning);
 
         // Asserts
-        assertThat(future.isCancelled(), is(equalTo(true)));
         Thread.sleep(100L);
+        assertThat(future.isCancelled(), is(equalTo(true)));
         assertThat(wasInterrupted[0], is(equalTo(false)));
         future.get();
     }

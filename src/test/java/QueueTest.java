@@ -20,20 +20,18 @@ public class QueueTest {
         assertThat(queue.pop(), is(equalTo(4)));
     }
 
-    @Test(timeout = 2000L)
+    @Test(timeout = 2500L)
     public void testAsyncPush() throws InterruptedException {
         // Prepare
-        Integer value = 1;
-        Thread asyncPush = new Thread(() -> {
-            sleep(1000L);
-            queue.push(value);
-        });
+        Thread asyncPush = new Thread(() -> { sleep(1000L); queue.push(1);
+            sleep(1000L); queue.push(2); });
 
         // Perform
         asyncPush.start();
 
         // Asserts
-        assertThat(queue.pop(), is(equalTo(value)));
+        assertThat(queue.pop(), is(equalTo(1)));
+        assertThat(queue.pop(), is(equalTo(2)));
     }
 
     @Before
